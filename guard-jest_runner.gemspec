@@ -1,23 +1,23 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'guard/jest/version'
+require 'guard/jest_runner/version'
 
 Gem::Specification.new do |s|
-  s.name          = "guard-jest"
-  s.version       = Guard::JestVersion.to_s
+  s.name          = "guard-jest_runner"
+  s.version       = Guard::JestRunnerVersion.to_s
   s.authors       = %w[RobinDaugherty]
   s.email         = %w[robin@robindaugherty.net]
 
   s.description   = %q{Allows you to add jest to your Guard toolchain, so that jest is run.}
   s.summary       = %q{Guard to run jest.}
-  s.homepage      = "https://github.com/RobinDaugherty/guard-jest"
+  s.homepage      = "https://github.com/RobinDaugherty/guard-jest_runner"
   s.license       = "MIT"
 
   if s.respond_to?(:metadata)
-    s.metadata['changelog_uri'] = 'https://github.com/RobinDaugherty/guard-jest/releases'
-    s.metadata['source_code_uri'] = 'https://github.com/RobinDaugherty/guard-jest'
-    s.metadata['bug_tracker_uri'] = 'https://github.com/RobinDaugherty/guard-jest/issues'
+    s.metadata['changelog_uri'] = 'https://github.com/RobinDaugherty/guard-jest_runner/releases'
+    s.metadata['source_code_uri'] = 'https://github.com/RobinDaugherty/guard-jest_runner'
+    s.metadata['bug_tracker_uri'] = 'https://github.com/RobinDaugherty/guard-jest_runner/issues'
   else
     puts "Your RubyGems does not support metadata. Update if you'd like to make a release."
   end

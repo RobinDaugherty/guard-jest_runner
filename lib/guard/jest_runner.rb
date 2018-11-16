@@ -3,8 +3,8 @@
 require 'guard/compat/plugin'
 
 module Guard
-  class Jest < Plugin
-    autoload :Runner, 'guard/jest/runner'
+  class JestRunner < Plugin
+    autoload :Runner, 'guard/jest_runner/runner'
 
     # Initializes a Guard plugin.
     # Don't do any work here, especially as Guard plugins get initialized
@@ -36,7 +36,7 @@ module Guard
     # @return [Object] the task result
     #
     def start
-      Compat::UI.info 'Guard::Jest is running'
+      Compat::UI.info 'Guard::JestRunner is running'
       run_all if options[:all_on_start]
     end
 
@@ -90,7 +90,7 @@ module Guard
       @failed_paths = runner.failed_paths
       throw :task_has_failed unless passed
     rescue => error
-      Compat::UI.error 'The following exception occurred while running guard-jest: ' \
+      Compat::UI.error 'The following exception occurred while running guard-jest_runner: ' \
                        "#{error.backtrace.first} #{error.message} (#{error.class.name})"
     end
 

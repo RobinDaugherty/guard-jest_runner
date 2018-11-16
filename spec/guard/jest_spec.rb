@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Guard::Jest do
+describe Guard::JestRunner do
   it 'has a version number' do
-    expect(Guard::Jest::VERSION).not_to be nil
+    expect(Guard::JestRunnerVersion).not_to be nil
   end
 
   it 'does something useful' do

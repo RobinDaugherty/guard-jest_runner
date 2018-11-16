@@ -3,7 +3,7 @@
 module Guard
   # A workaround for some superclass BS
   # where Jest < Guard has to exist?
-  module JestVersion
+  module JestRunnerVersion
     # http://semver.org/
     MAJOR = 1
     MINOR = 0

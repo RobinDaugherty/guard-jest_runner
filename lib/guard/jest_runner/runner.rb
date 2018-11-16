@@ -3,7 +3,7 @@
 require 'json'
 
 module Guard
-  class Jest
+  class JestRunner
     # This class runs `jest` command, retrieves result and notifies.
     # An instance of this class is intended to invoke `jest` only once in its lifetime.
     class Runner

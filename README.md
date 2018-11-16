@@ -1,13 +1,15 @@
-# Guard::Jest
+# Guard::JestRunner
 
-Guard::Jest allows you to automatically run jest when you change a Javascript/ES6 file.
+Guard::JestRunner allows you to automatically run jest when you change a Javascript/ES6 file.
+
+Unlike [guard-jest](https://rubygems.org/gems/guard-jest), this guard runs just as directed by your Guardfile, which allows you to use it in a group and use a Red-Green-Refactor process.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'guard-jest'
+gem 'guard-jest_runner'
 ```
 
 And then execute:
@@ -16,7 +18,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install guard-jest
+    $ gem install guard-jest_runner
 
 ## Usage
 
@@ -30,6 +32,22 @@ For a typical Rails app with webpack:
 guard :jest do
   watch(%r{app/javascript/(.+)\.js$}) { |m| "spec/javascript/#{m[1]}.test.js" }
   watch(%r{spec/javascript/.+\.js$})
+end
+```
+
+(**Recommended**) pair up with guard-eslint to get a Red-Green-Refactor process:
+
+```ruby
+group :red_green_refactor_js, halt_on_fail: true do
+  guard :jest_runner do
+    watch(%r{app/javascript/(.+)\.js$}) { |m| "spec/javascript/#{m[1]}.test.js" }
+    watch(%r{spec/javascript/.+\.js$})
+  end
+
+  guard :eslint, formatter: 'codeframe' do
+    watch(%r{app/javascript/(.+)\.js$}) { |m| ""}
+    watch(%r{spec/javascript/(.+)\.js$})
+  end
 end
 ```
 
@@ -48,7 +66,7 @@ default_paths: ['**/*.js', '**/*.es6'] # The default paths that will be used for
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/RobinDaugherty/guard-jest.
+Bug reports and pull requests are welcome on GitHub at https://github.com/RobinDaugherty/guard-jest_runner.
 
 * Please create a topic branch for every separate change you make.
 * Make sure your patches are well-tested.
