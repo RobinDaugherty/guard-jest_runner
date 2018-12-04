@@ -6,7 +6,7 @@ module Guard
   module JestRunnerVersion
     # http://semver.org/
     MAJOR = 1
-    MINOR = 0
+    MINOR = 1
     PATCH = 0
 
     def self.to_s
