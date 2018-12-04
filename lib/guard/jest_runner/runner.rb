@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'open3'
 
 module Guard
   class JestRunner
@@ -16,8 +17,7 @@ module Guard
       def run(paths)
         paths = options[:default_paths] unless paths
 
-        command = command_for_check(paths)
-        passed = system(*command)
+        passed = run_for_check(paths)
         case options[:notification]
         when :failed
           notify(passed) unless passed
@@ -26,6 +26,24 @@ module Guard
         end
 
         passed
+      end
+
+      def failed_paths
+        result[:testResults].select { |f| f[:status] == "failed" }.map { |f| f[:name] }.uniq
+      end
+
+      private
+
+      attr_accessor :check_stdout, :check_stderr
+
+      def run_for_check(paths)
+        command = command_for_check(paths)
+        (stdout, stderr, status) = Open3.capture3(*command)
+        self.check_stdout = stdout
+        self.check_stderr = stderr
+        status
+      rescue SystemCallError => e
+        fail "The jest command failed with #{e.message}: `#{command}`"
       end
 
       def command_for_check(paths)
@@ -72,6 +90,8 @@ module Guard
             JSON.parse(file.read, symbolize_names: true)
           end
         end
+      rescue JSON::ParserError
+        fail "jest JSON output could not be parsed. Output from jest was:\n#{check_stderr}\n#{check_stdout}"
       end
 
       def notify(passed)
@@ -100,10 +120,6 @@ module Guard
             text << "."
           end
         end
-      end
-
-      def failed_paths
-        result[:testResults].select { |f| f[:status] == "failed" }.map { |f| f[:name] }.uniq
       end
 
       def pluralize(number, thing, options = {})
