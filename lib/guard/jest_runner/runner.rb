@@ -17,15 +17,15 @@ module Guard
       def run(paths)
         paths = options[:default_paths] unless paths
 
-        passed = run_for_check(paths)
+        run_passed = run_for_check(paths)
         case options[:notification]
         when :failed
-          notify(passed) unless passed
+          notify(run_passed) unless run_passed
         when true
-          notify(passed)
+          notify(run_passed)
         end
 
-        passed
+        run_passed
       end
 
       def failed_paths
@@ -39,9 +39,10 @@ module Guard
       def run_for_check(paths)
         command = command_for_check(paths)
         (stdout, stderr, status) = Open3.capture3(*command)
-        self.check_stdout = stdout
-        self.check_stderr = stderr
-        status
+        @check_stdout = stdout
+        @check_stderr = stderr
+        puts stderr
+        status.success?
       rescue SystemCallError => e
         fail "The jest command failed with #{e.message}: `#{command}`"
       end
@@ -50,7 +51,7 @@ module Guard
         command = [options[:command]]
 
         command.concat(args_specified_by_user)
-        command.concat(['--json', "--outputFile=#{json_file_path}"])
+        command.concat(['--json', '--colors', "--outputFile=#{json_file_path}"])
         command.concat(paths)
       end
 
@@ -94,8 +95,8 @@ module Guard
         fail "jest JSON output could not be parsed. Output from jest was:\n#{check_stderr}\n#{check_stdout}"
       end
 
-      def notify(passed)
-        image = passed ? :success : :failed
+      def notify(run_passed)
+        image = run_passed ? :success : :failed
         Notifier.notify(summary_text, title: 'Jest results', image: image)
       end
 
