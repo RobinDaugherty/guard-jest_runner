@@ -56,12 +56,14 @@ end
 ``` ruby
 all_on_start: false                    # Run all specs after changed specs pass.
 keep_failed: true                      # Keep failed files until they pass (add them to new ones)
-notification: true                     # Display notification always when jest completes.
-                                       # If you want to notify only on failure, set to :failure.
 cli: nil                               # Additional command-line options to pass to jest.
                                        # Don't use the '-f' or '--format' option here.
 command: 'jest'                        # Specify a custom path to the jest command.
 default_paths: ['**/*.js', '**/*.es6'] # The default paths that will be used for "all_on_start".
+notification: true                     # Display notification always when jest completes.
+                                       # If you want to notify only on failure, set to :failed.
+print_result: true                     # Print the output of the jest run. Set to :failed
+                                       # if you want to see only for the failed runs
 ```
 
 ## Contributing

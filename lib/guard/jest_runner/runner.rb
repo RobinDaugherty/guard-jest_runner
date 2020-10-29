@@ -18,11 +18,19 @@ module Guard
         paths = options[:default_paths] unless paths
 
         run_passed = run_for_check(paths)
+
         case options[:notification]
         when :failed
           notify(run_passed) unless run_passed
         when true
           notify(run_passed)
+        end
+
+        case options[:print_result]
+        when :failed
+          puts @check_stderr unless run_passed
+        when true
+          puts @check_stderr
         end
 
         run_passed
@@ -41,7 +49,6 @@ module Guard
         (stdout, stderr, status) = Open3.capture3(*command)
         @check_stdout = stdout
         @check_stderr = stderr
-        puts stderr
         status.success?
       rescue SystemCallError => e
         fail "The jest command failed with #{e.message}: `#{command}`"
