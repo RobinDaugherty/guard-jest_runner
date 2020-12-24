@@ -21,10 +21,11 @@ module Guard
       @options = {
         all_on_start: false,
         keep_failed: true,
-        notification: true,
         cli: nil,
         command: 'jest',
         default_paths: ['**/*.js', '**/*.es6'],
+        notification: true,
+        print_result: true,
       }.merge(options)
 
       @failed_paths = []
